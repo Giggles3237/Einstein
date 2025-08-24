@@ -29,15 +29,15 @@ export default function DealEntry() {
   })
 
   const columns = [
-    { field: 'dealDate', headerName: 'Date', width: 110, valueGetter: ({ value }) => value ? value.slice(0,10) : '' , editable: true },
+    { field: 'dealDate', headerName: 'Date', width: 110, valueGetter: (params) => params?.value ? params.value.slice(0,10) : '' , editable: true },
     { field: 'bank', headerName: 'Bank', width: 110, editable: true },
-    { field: 'fundedDate', headerName: 'Funded', width: 110, valueGetter: ({ value }) => value ? value.slice(0,10) : '' , editable: true },
+    { field: 'fundedDate', headerName: 'Funded', width: 110, valueGetter: (params) => params?.value ? params.value.slice(0,10) : '' , editable: true },
     { field: 'stockNo', headerName: 'Stock #', width: 110, editable: true },
     { field: 'customerName', headerName: 'Customer', width: 180, editable: true },
     { field: 'salespersonName', headerName: 'Salesperson', width: 170, editable: true,
-      type: 'singleSelect', valueOptions: spOptions, valueGetter: (p) => p.row.salespersonName },
+      type: 'singleSelect', valueOptions: spOptions, valueGetter: (p) => p?.row?.salespersonName || '' },
     { field: 'financeManagerName', headerName: 'F&I', width: 150, editable: true,
-      type: 'singleSelect', valueOptions: fmOptions, valueGetter: (p) => p.row.financeManagerName },
+      type: 'singleSelect', valueOptions: fmOptions, valueGetter: (p) => p?.row?.financeManagerName || '' },
     { field: 'fundingNotes', headerName: 'Funding Notes', width: 300, editable: true },
   ]
 
@@ -54,11 +54,11 @@ export default function DealEntry() {
     if (newRow.fundedDate !== oldRow.fundedDate) changes.fundedDate = toDateOrNull(newRow.fundedDate)
     if (newRow.stockNo !== oldRow.stockNo) changes.stockNo = newRow.stockNo
     if (newRow.customerName !== oldRow.customerName) changes.customerName = newRow.customerName
-    if (newRow.salespersonName !== oldRow.salespersonName) {
+    if ((newRow.salespersonName || '') !== (oldRow.salespersonName || '')) {
       const found = spOptions.find(o => o.label === newRow.salespersonName || o.value === newRow.salespersonName)
       changes.salespersonId = found ? found.value : null
     }
-    if (newRow.financeManagerName !== oldRow.financeManagerName) {
+    if ((newRow.financeManagerName || '') !== (oldRow.financeManagerName || '')) {
       const found = fmOptions.find(o => o.label === newRow.financeManagerName || o.value === newRow.financeManagerName)
       changes.financeManagerId = found ? found.value : null
     }

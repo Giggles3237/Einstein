@@ -21,8 +21,8 @@ export default function Funding() {
     { field: 'bank', headerName: 'Bank', width: 120 },
     { field: 'stockNo', headerName: 'Stock #', width: 110 },
     { field: 'customerName', headerName: 'Customer', width: 200 },
-    { field: 'salespersonName', headerName: 'Salesperson', width: 170 },
-    { field: 'financeManagerName', headerName: 'F&I', width: 150 },
+    { field: 'salespersonName', headerName: 'Salesperson', width: 170, valueGetter: (p) => p.row.salespersonName || '' },
+    { field: 'financeManagerName', headerName: 'F&I', width: 150, valueGetter: (p) => p.row.financeManagerName || '' },
     { field: 'fundingNotes', headerName: 'Funding Notes', width: 300 },
     {
       field: 'actions',
