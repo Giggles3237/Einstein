@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Salesperson {
+  id            Int     @id @default(autoincrement())
+  name          String  @unique
+  employeeNumber Int?
+  payPlan       String? // 'BMW' or 'MINI' or other
+  demoAllowed   Boolean @default(false)
+  active        Boolean @default(true)
+  createdAt     DateTime @default(now())
+  deals         Deal[]
+}
+
+model FinanceManager {
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+  active    Boolean @default(true)
+  deals     Deal[]
+}
+
+model Deal {
+  id               Int       @id @default(autoincrement())
+  dealDate         DateTime?
+  bank             String?
+  fundedDate       DateTime?
+  stockNo          String?
+  customerName     String?
+  salespersonId    Int?
+  financeManagerId Int?
+  dealType         String?   // e.g., New BMW, CPO MINI, etc.
+  usedCarSource    String?
+  age              Int?
+  split            Decimal?
+
+  feGross          Decimal?
+  avp              Decimal?
+  beGross          Decimal?
+  reserveAmt       Decimal?
+  rewardsAmt       Decimal?
+  vscAmt           Decimal?
+  maintenanceAmt   Decimal?
+  gapAmt           Decimal?
+  cilajetAmt       Decimal?
+  lojackAmt        Decimal?
+  keyAmt           Decimal?
+  collisionAmt     Decimal?
+  dentAmt          Decimal?
+  excessWearAmt    Decimal?
+  ppfAmt           Decimal?
+  wheelTireAmt     Decimal?
+
+  moneyFlag        Boolean?
+  titlingFlag      Boolean?
+  mileageFlag      Boolean?
+  licenseInsuranceFlag Boolean?
+  feesFlag         Boolean?
+  cleanFlag        Boolean?
+  payoffFlag       Boolean?
+  payoffSent       DateTime?
+  atcFlag          Boolean?
+  registrationSent DateTime?
+
+  notes            String?
+  fundingNotes     String?
+
+  salesperson      Salesperson?   @relation(fields: [salespersonId], references: [id])
+  financeManager   FinanceManager? @relation(fields: [financeManagerId], references: [id])
+}
